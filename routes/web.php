@@ -19,7 +19,7 @@ Route::get('/',function (){
 Route::redirect('/','/login');
 Route::get('/two-factor-recovery',[App\Http\Controllers\AuthController::class,'twoFactorRecovery'])->name('twoFactorRecovery');
 
-Route::group(['middleware' => ['auth']], function (){
+Route::group(['middleware' => ['auth','first.password']], function (){
     Route::prefix('/user')->group(function (){
         Route::get('/',[App\Http\Controllers\UserController::class,'index'])->middleware('role:admin')->name('users');
         Route::post('/',[App\Http\Controllers\UserController::class,'store'])->middleware('role:admin')->name('users.store');
@@ -36,7 +36,11 @@ Route::group(['middleware' => ['auth']], function (){
         Route::post('/store-token', [App\Http\Controllers\NotificationController::class, 'updateDeviceToken'])->name('store.token');
         Route::post('/send-web-notification', [App\Http\Controllers\NotificationController::class, 'sendNotification'])->name('send.web-notification');
     });
+    Route::get('/auth/passwords/new_password',[App\Http\Controllers\AuthController::class, 'newPassword'])->name('auth.newPassword');
+    Route::post('/auth/passwords/reset_password/{id}',[App\Http\Controllers\AuthController::class, 'resetPassword'])->name('auth.reset.newPassword');
 });
+
+
 
     Route::prefix('/auth')->group(function () {
         Route::get('/{token}', [App\Http\Controllers\AuthController::class, 'activeUser'])->name('auth.token');

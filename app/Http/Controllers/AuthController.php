@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\auth\ResetPasswordRequest;
 use App\Http\Services\AuthService;
 use App\Mail\RecoveryCode;
 use App\Models\User;
+use http\Env\Request;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -35,4 +37,23 @@ class AuthController extends Controller
 
         }
     }
+
+    public function newPassword(){
+        try {
+            return view('auth.passwords.new_password');
+        } catch (\Exception $exception){
+        }
+    }
+
+    public function resetPassword(ResetPasswordRequest $request, $id){
+        try {
+             if($this->authService->resetPassowrd($id,$request->password)){
+                return redirect('/home');
+             }
+             return 'Error';
+
+        } catch (\Exception $exception){
+        }
+    }
 }
+

@@ -20,6 +20,7 @@ class AdminSeeder extends Seeder
            'email' => 'admin@admin.com',
            'password' => Hash::make('qwertyuiop'),
            'email_verified_at' => Carbon::now(),
+           'first_login' => false,
         ]);
         $user->assignRole(UserRole::ADMIN);
     }

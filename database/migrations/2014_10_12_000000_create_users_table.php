@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('status',[ UserStatus::ACTIVE, UserStatus::BLOCK, UserStatus::ASSIGN ]);
             $table->string('token')->nullable();
             $table->text('device_token')->nullable();
+            $table->boolean('first_login')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -36,6 +36,18 @@ class UserRepository
         }
     }
 
+    public function updatePassword($id, $password){
+        try {
+            User::where('id', $id)->update([
+                'password' => Hash::make($password),
+                'first_login' => false,
+            ]);
+            return true;
+        } catch (\Exception $exception){
+            throw new \ErrorException($exception->getMessage());
+        }
+    }
+
     public function index(){
         try {
             return User::with('roles')->get();
